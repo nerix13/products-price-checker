@@ -1,8 +1,7 @@
 from utils.product_ctrl import *
 
 from bs4 import BeautifulSoup
-from colorama import *
-import argparse
+from colorama import Fore
 import urllib3
 import sys
 
@@ -15,12 +14,12 @@ if __name__ == '__main__':
 
     if (r.status == 200):
         soup = BeautifulSoup(r.data, 'html.parser')
-        products = soup.find('ol', {'class':'ui-search-layout'}) # web shop product list
+        products = soup.find('ol', {'class':'ui-search-layout'}) # product list
         results = 0 # products found
         product_list = []
         for product in products.findChildren("li", recursive=False):
             p = Product(product)
-            # print all products on screen
+            # print all products
             if sys.argv[2] == "-a" or sys.argv[2] == "--show-all":
                 print("-"*30)
                 get_product_info(p)
@@ -39,7 +38,7 @@ if __name__ == '__main__':
         elif sys.argv[2] == "--best-recommended":
             get_product_('best-recommended', product_list)
     else:
-        print(Fore.RED+"404 not found"+Fore.RESET)
+        print(Fore.RED+"[x] Cann't connect to https://listado.mercadolibre.com.mx"+Fore.RESET)
 
 
 
